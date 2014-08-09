@@ -22,15 +22,14 @@ hours <- as.POSIXlt((0:24)*60*60, origin="2000-01-01", tz="UCT")
 
 ```r
 stepsByDay <- ddply(activity, .(date), summarize, totalSteps=sum(steps, na.rm=T))
-stepsByDay <- stepsByDay[order(stepsByDay$date),]
+#stepsByDay <- stepsByDay[stepsByDay$totalSteps>0,]
 
-barplot(stepsByDay$totalSteps, names.arg=format(stepsByDay$date, "%m-%d"), main="Steps by Day", col="blue", xlab="Date", ylab="Steps", yaxt="n")
-axis(2, axTicks(2), prettyNum(axTicks(2), big.mark=","))
+hist(stepsByDay$totalSteps, breaks=20, col="blue", main="Steps by Day")
 meanSteps=mean(stepsByDay$totalSteps)
-abline(h=meanSteps, col="red")
+abline(v=meanSteps, col="red")
 medianSteps=median(stepsByDay$totalSteps)
-abline(h=medianSteps, col="green")
-legend("topleft", legend=c("Steps", "Mean", "Median"), fill=c("blue", NA, NA), col=c(NA, "red", "green"), pch=c(NA, "-", "-"), border=c("black", NA, NA))
+abline(v=medianSteps, col="green")
+legend("topright", legend=c("Steps", "Mean", "Median"), fill=c("blue", NA, NA), col=c(NA, "red", "green"), pch=c(NA, "-", "-"), border=c("black", NA, NA))
 ```
 
 ![plot of chunk stepsByDay](./PA1_template_files/figure-html/stepsByDay.png) 
@@ -95,6 +94,23 @@ sum(is.na(activity$steps))
 ```
 ## [1] 0
 ```
+
+
+```r
+stepsByDay <- ddply(activity, .(date), summarize, totalSteps=sum(steps, na.rm=T))
+#stepsByDay <- stepsByDay[stepsByDay$totalSteps>0,]
+
+hist(stepsByDay$totalSteps, breaks=20, col="blue", main="Steps by Day")
+meanSteps=mean(stepsByDay$totalSteps)
+abline(v=meanSteps, col="red")
+medianSteps=median(stepsByDay$totalSteps)
+abline(v=medianSteps, col="green")
+legend("topright", legend=c("Steps", "Mean", "Median"), fill=c("blue", NA, NA), col=c(NA, "red", "green"), pch=c(NA, "-", "-"), border=c("black", NA, NA))
+```
+
+![plot of chunk newStepsByDay](./PA1_template_files/figure-html/newStepsByDay.png) 
+
+The mean number of steps taken is now 10,766 and the median number of steps taken is now 10,766.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
